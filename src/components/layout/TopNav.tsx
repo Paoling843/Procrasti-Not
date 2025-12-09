@@ -1,9 +1,10 @@
 import type React from "react"
 import { FaBell, FaUserCircle } from "react-icons/fa"
 import { LogOutIcon, MenuIcon } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Dropdown from "../ui/DropDown"
 import ThemeToggle from "../ui/ThemeToggle"
+import { useAuth } from '../../context/AutContext'
 
 interface TopNavProps {
   theme: string
@@ -13,6 +14,9 @@ interface TopNavProps {
 }
 
 const TopNav: React.FC<TopNavProps> = ({ theme, setTheme, isSidebarOpen, setIsSidebarOpen }) => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   return (
     <header className="p-4 flex justify-between items-center shadow-md">
       <div className="flex items-center gap-3">
@@ -45,12 +49,16 @@ const TopNav: React.FC<TopNavProps> = ({ theme, setTheme, isSidebarOpen, setIsSi
               </Link>
             </li>
             <li>
-              <Link
-                to="/log-out"
-                className="w-full px-4 flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  navigate('/register');
+                }}
+                className="w-full text-left px-4 flex items-center space-x-2 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <LogOutIcon size={16} /> <span>Logout</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </Dropdown>
