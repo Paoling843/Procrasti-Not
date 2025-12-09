@@ -8,7 +8,12 @@ const Home: React.FC = () => {
       </h2>
       <p className="text-gray-600">Manage your site from here.</p>
     </div>
+    
   );
 };
+
+<div>
+  <h1>Hello theere</h1>
+</div>
 
 export default Home;
