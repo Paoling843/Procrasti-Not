@@ -1,0 +1,2 @@
+- [ ] Add useEffect in TodoContext.tsx to reset filter.category to 'all' when it's no longer in categories
+- [ ] Run the app using npm run dev to test the fix

@@ -12,6 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
 
   const menuItems = [
     { path: "/", label: "Dashboard", icon: <HomeIcon size={24} /> },
+    { path: "/todos", label: "Tasks", icon: <HomeIcon size={24} /> },
     { path: "/settings", label: "Settings", icon: <SettingsIcon size={24} /> },
 
   ]

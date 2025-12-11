@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+const TodosLazy = React.lazy(() => import('./pages/Todos'));
 import "admin-lte/dist/css/adminlte.min.css"; 
 import "./index.css"; 
 
@@ -28,6 +29,16 @@ const AppContent: React.FC = () => {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/todos"
+              element={
+                <ProtectedRoute>
+                  <React.Suspense fallback={<div className="p-6">Loading...</div>}>
+                    <TodosLazy />
+                  </React.Suspense>
                 </ProtectedRoute>
               }
             />
