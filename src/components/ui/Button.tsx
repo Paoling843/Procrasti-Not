@@ -22,14 +22,14 @@ const Button: React.FC<CustomButtonProps> = ({
   };
 
   const variantStyles = {
-    maroon: "bg-maroon text-white hover:bg-maroon/90",
-    darkred: "bg-darkred text-white hover:bg-darkred/90",
-    accent: "bg-accent text-white hover:bg-accent/90",
-    highlight: "bg-highlight text-white hover:bg-highlight/90",
-    soft: "bg-soft text-black hover:bg-soft/90",
-    outline: "border border-gray-300 bg-transparent hover:bg-gray-100",
-    ghost: "hover:bg-gray-100",
-    link: "text-maroon underline hover:text-darkred",
+    maroon: "bg-maroon text-white hover:bg-maroon/90 dark:bg-maroon dark:hover:bg-maroon/80",
+    darkred: "bg-darkred text-white hover:bg-darkred/90 dark:bg-darkred dark:hover:bg-darkred/80",
+    accent: "bg-accent text-white hover:bg-accent/90 dark:bg-accent dark:hover:bg-accent/80",
+    highlight: "bg-highlight text-white hover:bg-highlight/90 dark:bg-highlight dark:hover:bg-highlight/80",
+    soft: "bg-soft text-black hover:bg-soft/90 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
+    outline: "border border-gray-300 dark:border-gray-600 bg-transparent dark:bg-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700",
+    ghost: "hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white",
+    link: "text-maroon dark:text-blue-400 underline hover:text-darkred dark:hover:text-blue-300",
   };
 
   return (

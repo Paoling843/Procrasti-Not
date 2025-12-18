@@ -6,6 +6,8 @@ export type Task = {
   category?: string;
   done: boolean;
   createdAt: number;
+  completedAt?: number | null;
+  reminder?: number | null;
 };
 
 type Filter = {
@@ -15,7 +17,7 @@ type Filter = {
 
 type TodoContextType = {
   tasks: Task[];
-  addTask: (title: string, category?: string) => void;
+  addTask: (title: string, category?: string, reminder?: number | null) => void;
   addCategory: (category: string) => void;
   deleteCategory: (category: string) => void;
   toggleTask: (id: string) => void;
@@ -68,8 +70,8 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [categories]);
 
-  const addTask = (title: string, category?: string) => {
-    const t: Task = { id: Date.now().toString(), title: title.trim(), category: category?.trim() || undefined, done: false, createdAt: Date.now() };
+  const addTask = (title: string, category?: string, reminder?: number | null) => {
+    const t: Task = { id: Date.now().toString(), title: title.trim(), category: category?.trim() || undefined, done: false, createdAt: Date.now(), reminder: reminder ?? null };
     setTasks((s) => [t, ...s]);
   };
 
@@ -86,7 +88,11 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const toggleTask = (id: string) => {
-    setTasks((s) => s.map(t => t.id === id ? { ...t, done: !t.done } : t));
+    setTasks((s) => s.map(t => t.id === id ? { 
+      ...t, 
+      done: !t.done,
+      completedAt: !t.done ? Date.now() : null
+    } : t));
   };
 
   const updateTask = (id: string, fields: Partial<Omit<Task, 'id' | 'createdAt'>>) => {

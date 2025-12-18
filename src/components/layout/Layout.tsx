@@ -1,26 +1,21 @@
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Sidebar from "./SideBar"
 import TopNav from "./TopNav"
 import Footer from "./Footer"
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light")
+interface LayoutProps {
+  children: React.ReactNode
+  theme: string
+  setTheme: (theme: string) => void
+}
 
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark")
-      localStorage.setItem("theme", "dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-      localStorage.setItem("theme", "light")
-    }
-  }, [theme])
+const Layout: React.FC<LayoutProps> = ({ children, theme, setTheme }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   return (
     <div
-      className={`flex h-screen overflow-hidden transition-colors ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"}`}
+      className={`flex h-screen overflow-hidden transition-colors ${theme === "dark" ? "bg-slate-950" : "bg-slate-50"}`}
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div

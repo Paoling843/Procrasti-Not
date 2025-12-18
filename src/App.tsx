@@ -1,69 +1,99 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import { TodoProvider } from './context/TodoContext';
 import { AuthProvider } from "./context/AutContext";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 const TodosLazy = React.lazy(() => import('./pages/Todos'));
 import "admin-lte/dist/css/adminlte.min.css"; 
 import "./index.css"; 
 
-const AppContent: React.FC = () => {
-  const location = useLocation();
-  const isAuthPage = location.pathname === "/register" || location.pathname === "/login";
-
+const AppContent: React.FC<{ theme: string; setTheme: (t: string) => void }> = ({ theme, setTheme }) => {
   return (
-    <div className={`min-h-screen bg-gray-100 text-black dark:bg-black dark:text-white transition-colors`}>
-      {isAuthPage ? (
+    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-blue-950 text-black dark:text-white transition-colors`}>
+      <Layout theme={theme} setTheme={setTheme}>
         <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/todos"
+            element={
+              <ProtectedRoute>
+                <React.Suspense fallback={<div className="p-6">Loading...</div>}>
+                  <TodosLazy />
+                </React.Suspense>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
-      ) : (
-        <Layout>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/todos"
-              element={
-                <ProtectedRoute>
-                  <React.Suspense fallback={<div className="p-6">Loading...</div>}>
-                    <TodosLazy />
-                  </React.Suspense>
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </Layout>
-      )}
+      </Layout>
     </div>
   );
 };
 
 const App: React.FC = () => {
-  const [theme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setThemeState] = useState(localStorage.getItem("theme") || "light");
+
+  const setTheme = (newTheme: string) => {
+    localStorage.setItem("theme", newTheme);
+    setThemeState(newTheme);
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    // Dispatch custom event for same-tab listeners
+    window.dispatchEvent(new Event("themechange"));
+  };
 
   useEffect(() => {
+    // Apply initial theme on mount
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [theme]);
+
+    const updateTheme = () => {
+      const newTheme = localStorage.getItem("theme") || "light";
+      setThemeState(newTheme);
+      if (newTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
+    // Listen for storage changes from other tabs
+    window.addEventListener("storage", updateTheme);
+    
+    return () => {
+      window.removeEventListener("storage", updateTheme);
+    };
+  }, []);
 
   return (
     <AuthProvider>
       <BrowserRouter>
-        <AppContent />
+        <TodoProvider>
+          <AppContent theme={theme} setTheme={setTheme} />
+        </TodoProvider>
       </BrowserRouter>
     </AuthProvider>
   );
