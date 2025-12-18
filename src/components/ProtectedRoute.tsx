@@ -1,14 +1,6 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AutContext';
 
 const ProtectedRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to="/register" replace />;
-  }
-
   return children;
 };
 

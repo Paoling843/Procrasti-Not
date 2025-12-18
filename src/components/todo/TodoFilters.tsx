@@ -6,18 +6,18 @@ const TodoFilters: React.FC = () => {
 
   return (
     <div className="flex gap-3 items-center mb-4">
-      <select value={filter.status} onChange={(e) => setFilter({ status: e.target.value as any })} className="border rounded px-2 py-1">
+      <select value={filter.status} onChange={(e) => setFilter({ status: e.target.value as any })} className="border rounded px-2 py-1 dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-600">
         <option value="all">All</option>
         <option value="todo">To-do</option>
         <option value="done">Done</option>
       </select>
 
-      <select value={filter.category} onChange={(e) => setFilter({ category: e.target.value as any })} className="border rounded px-2 py-1">
+      <select value={filter.category} onChange={(e) => setFilter({ category: e.target.value as any })} className="border rounded px-2 py-1 dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-600">
         <option value="all">All categories</option>
         {categories.map(c => <option key={c} value={c}>{c}</option>)}
       </select>
 
-      <div className="text-sm text-gray-500">Showing {filter.status} / {filter.category}</div>
+      <div className="text-sm text-gray-600 dark:text-gray-400">Showing {filter.status} / {filter.category}</div>
     </div>
   );
 };

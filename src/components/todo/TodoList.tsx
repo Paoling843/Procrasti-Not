@@ -5,7 +5,7 @@ import TodoItem from './TodoItem';
 const TodoList: React.FC = () => {
   const { filteredTasks } = useTodos();
 
-  if (!filteredTasks.length) return <div className="text-gray-500 mt-4">No tasks found.</div>;
+  if (!filteredTasks.length) return <div className="text-gray-500 dark:text-gray-400 mt-4">No tasks found.</div>;
 
   return (
     <ul className="mt-4 space-y-2">
