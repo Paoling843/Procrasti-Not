@@ -5,14 +5,14 @@ import { TodoProvider } from './context/TodoContext';
 import { AuthProvider } from "./context/AutContext";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import Todos from "./pages/Todos";
 import ProtectedRoute from "./components/ProtectedRoute";
-const TodosLazy = React.lazy(() => import('./pages/Todos'));
 import "admin-lte/dist/css/adminlte.min.css"; 
 import "./index.css"; 
 
 const AppContent: React.FC<{ theme: string; setTheme: (t: string) => void }> = ({ theme, setTheme }) => {
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-950 dark:to-blue-950 text-black dark:text-white transition-colors`}>
+    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-white transition-colors`}>
       <Layout theme={theme} setTheme={setTheme}>
         <Routes>
           <Route
@@ -27,9 +27,7 @@ const AppContent: React.FC<{ theme: string; setTheme: (t: string) => void }> = (
             path="/todos"
             element={
               <ProtectedRoute>
-                <React.Suspense fallback={<div className="p-6">Loading...</div>}>
-                  <TodosLazy />
-                </React.Suspense>
+                <Todos />
               </ProtectedRoute>
             }
           />
